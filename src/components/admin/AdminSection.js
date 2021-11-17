@@ -1,12 +1,12 @@
 import React from 'react';
-import  HeaderAdmin  from './HeaderAdmin';
-import  Authorization  from './Authorization';
+import HeaderAdmin from './HeaderAdmin';
+import Authorization from './Authorization';
 
 export default function AdminSection() {
   return (
-    <div>
+    <React.Fragment>
       <HeaderAdmin />
       <Authorization />
-    </div>
+    </React.Fragment>
   );
 }
