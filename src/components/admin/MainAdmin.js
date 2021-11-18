@@ -1,16 +1,17 @@
 import React from 'react';
 import { Navigate  } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import HeaderAdmin from './HeaderAdmin';
 import HallsManagement from './HallsManagement';
 
 export default function MainAdmin() {
 
-  const auth = JSON.parse(localStorage.getItem('auth'));
+  const { result } = useSelector(state => state.serviceAuthorization);
   
   return (
     <React.Fragment>
       <HeaderAdmin />
-      {auth ?
+      {result.result === 'Ok' ?
         <main className="conf-steps">
           <HallsManagement />
         </main>
