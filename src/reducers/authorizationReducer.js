@@ -17,13 +17,14 @@ export default function authorizationReducer(state = initialState, action) {
       const { error } = action.payload;
       return {
         ...state,
-        error: error,
+        error,
       }
     case AUTHORIZATION_SUCCESS:
       const { result } = action.payload;
       return {
         ...state,
-        result: result,
+        result,
+        error: null
       }
     case CHANGE_FIELD: 
       return {

@@ -1,19 +1,24 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { authorization, changeField } from '../../actions/actionCreators';
+import { authorization, authorizationFailure, changeField } from '../../actions/actionCreators';
 
 export default function Authorization() {
 
-  const { login, password, result } = useSelector(state => state.serviceAuthorization);
+  const { login, password, result, error } = useSelector(state => state.serviceAuthorization);
   let navigate = useNavigate();
   const dispatch = useDispatch();
   
   useEffect(() => {
-    if (result.result === 'Ok') {
+    if (result && result.result === 'Ok') {
       navigate("/admin/authorized");
+    } else if (result && result.result === 'Not authorized') {
+      alert("Incorrect login or password. Try again.");
+    } else if (error && error.error) {
+      alert('Something wrong with backend', error.error);
+      dispatch(authorizationFailure(''));
     }
-  }, [result, navigate]);
+  }, [result, error, navigate, dispatch]);
 
   const handleChange = evt => {
     const { name, value } = evt.target;
