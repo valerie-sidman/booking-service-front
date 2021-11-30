@@ -2,6 +2,7 @@ import { createStore, combineReducers } from "redux";
 import authorizationReducer from "../reducers/authorizationReducer.js";
 import hallsListReducer from "../reducers/hallsListReducer.js";
 import hallAddingReducer from "../reducers/hallAddingReducer.js";
+import popupToggleReducer from "../reducers/popupToggleReducer.js";
 
 function saveToLocalStorage(state) {
   try {
@@ -27,6 +28,7 @@ const reducer = combineReducers({
   serviceAuthorization: authorizationReducer,
   serviceHallsList: hallsListReducer,
   serviceHallAdding: hallAddingReducer,
+  servicePopupToggle: popupToggleReducer,
 })
 
 const store = createStore(

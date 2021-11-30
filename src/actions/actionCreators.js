@@ -4,7 +4,8 @@ import {
   HALLS_LIST_FAILURE,
   HALLS_LIST_SUCCESS,
   HALL_ADDING_FAILURE,
-  HALL_ADDING_SUCCESS,
+  POPUP_ADDING_TOGGLE,
+  POPUP_DELETING_TOGGLE,
   CHANGE_FIELD,
 } from './actionTypes';
 
@@ -82,13 +83,6 @@ export function hallAddingFailure(error) {
   }
 }
 
-export function hallAddingSuccess(hall) {
-  return {
-    type: HALL_ADDING_SUCCESS,
-    payload: { hall }
-  }
-}
-
 export function hallAdding(dispatch, name) {
   fetch("http://localhost:8000/api/halls", {
     method: 'POST',
@@ -98,13 +92,33 @@ export function hallAdding(dispatch, name) {
     }),
     body: JSON.stringify({ name }),
   }).then((res) => res.json())
-    .then((data) => {
-      console.log("Creators", data);
-      dispatch(hallAddingSuccess(data))
-    })
     .catch((e) => {
       dispatch(hallAddingFailure(e.message))
     })
+}
+
+// HALL DELETING
+
+export function hallDeleting(id) {
+  fetch(`http://localhost:8000/api/halls/${id}`, {
+    method: 'DELETE'
+  })
+}
+
+// POPUP TOGGLE
+
+export function popupAddingToggle(addingStatus) {
+  return {
+    type: POPUP_ADDING_TOGGLE,
+    payload: { addingStatus },
+  }
+}
+
+export function popupDeletingToggle(deletingStatus, delId, delName) {
+  return {
+    type: POPUP_DELETING_TOGGLE,
+    payload: { deletingStatus, delId, delName },
+  }
 }
 
 // CHANGE FIELD

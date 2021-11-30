@@ -1,22 +1,26 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import PopupAdding from './PopupAdding';
+import { useNavigate } from 'react-router-dom';
+import Popup from './Popup';
 import PopupControls from './PopupControls';
-import { hallAdding, hallAddingFailure, changeField } from '../../actions/actionCreators';
+import { 
+  hallsListFetch, 
+  hallAdding, 
+  hallAddingFailure, 
+  popupAddingToggle,
+  changeField 
+} from '../../actions/actionCreators';
 
-export default function AddHall() {
+export default function AddHall(props) {
 
-  const { name, error } = useSelector(state => state.serviceHallAdding);
-  let navigate = useNavigate();
   const dispatch = useDispatch();
+  let navigate = useNavigate();
+  const { name, error } = useSelector(state => state.serviceHallAdding);
 
   useEffect(() => {
     if (error) {
       dispatch(hallAddingFailure(''));
-    } else {
-      // navigate("/admin/authorized");
-    }
+    } 
   });
 
   const handleChange = evt => {
@@ -26,21 +30,26 @@ export default function AddHall() {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    console.log("Added new hall");
     hallAdding(dispatch, name);
+    hallsListFetch(dispatch);
+  }
+
+  const handleRedirect = () => {
+    navigate("/admin/authorized");
+    dispatch(popupAddingToggle(false));
   }
 
   return (
     <React.Fragment>
-      <PopupAdding title="Добавление зала">
+      <Popup toggleActiveState={props.active === true ? 'popup active' : 'popup'} title="Добавление зала">
         <form action="add_hall" method="post" acceptCharset="utf-8" onSubmit={handleSubmit}>
           <label className="conf-step__label conf-step__label-fullsize" htmlFor="name">
             Название зала
             <input className="conf-step__inputв" type="text" placeholder="Например, &laquo;Зал 1&raquo;" name="name" value={name} onChange={handleChange} required />
           </label>
-          <PopupControls title="Добавить зал" />
+          <PopupControls title="Добавить зал" action={handleRedirect} />
         </form>
-      </PopupAdding>
+      </Popup>
     </React.Fragment>
   )
 }
