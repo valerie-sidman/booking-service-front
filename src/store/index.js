@@ -3,6 +3,7 @@ import authorizationReducer from "../reducers/authorizationReducer.js";
 import hallsListReducer from "../reducers/hallsListReducer.js";
 import hallAddingReducer from "../reducers/hallAddingReducer.js";
 import popupToggleReducer from "../reducers/popupToggleReducer.js";
+import catchingInfoReducer from "../reducers/catchingInfoReducer.js";
 
 function saveToLocalStorage(state) {
   try {
@@ -29,6 +30,7 @@ const reducer = combineReducers({
   serviceHallsList: hallsListReducer,
   serviceHallAdding: hallAddingReducer,
   servicePopupToggle: popupToggleReducer,
+  serviceCatchingInfo: catchingInfoReducer,
 })
 
 const store = createStore(

@@ -4,6 +4,8 @@ import {
   HALLS_LIST_FAILURE,
   HALLS_LIST_SUCCESS,
   HALL_ADDING_FAILURE,
+  CATCHING_INFO_BY_CLICKING_ON_HALL,
+  ROWS_SEATS_ADDING_FAILURE,
   POPUP_ADDING_TOGGLE,
   POPUP_DELETING_TOGGLE,
   CHANGE_FIELD,
@@ -90,7 +92,7 @@ export function hallAdding(dispatch, name) {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
     }),
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ name, num_of_rows: 0, num_of_seats: 0 }),
   }).then((res) => res.json())
     .catch((e) => {
       dispatch(hallAddingFailure(e.message))
@@ -104,6 +106,43 @@ export function hallDeleting(id) {
     method: 'DELETE'
   })
 }
+
+// ROWS SEATS ADDING
+
+export function rowsSeatsAddingFailure(error) {
+  return {
+    type: ROWS_SEATS_ADDING_FAILURE,
+    payload: { error }
+  }
+}
+
+export function rowsSeatsAdding(dispatch, id, numOfRows, numOfSeats) {
+fetch(`http://localhost:8000/api/halls/${id}`, {
+    method: 'PUT',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    }),
+    body: JSON.stringify({ 
+      num_of_rows: numOfRows,
+      num_of_seats: numOfSeats
+    }),
+  }).then((res) => res.json())
+    .catch((e) => {
+      dispatch(rowsSeatsAddingFailure(e.message))
+    })
+}
+
+// CATCHING INFO BY CLICKING ON HALL
+
+export function catchingInfoByClickingOnHall(id, name, numOfRows, numOfSeats) {
+  return {
+    type: CATCHING_INFO_BY_CLICKING_ON_HALL,
+    payload: { id, name, numOfRows, numOfSeats }
+  }
+}
+
+
 
 // POPUP TOGGLE
 
