@@ -9,6 +9,7 @@ import {
 export default function HallsList() {
 
   const { halls, error } = useSelector(state => state.serviceHallsList);
+  const { id } = useSelector(state => state.serviceCatchingInfo);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,6 +18,7 @@ export default function HallsList() {
       dispatch(hallsListFailure(''));
     } else if (halls) {
       hallsListFetch(dispatch);
+      dispatch(catchingInfoByClickingOnHall('', '', '', ''));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -35,7 +37,7 @@ export default function HallsList() {
       <ul className="conf-step__selectors-box">{
         halls.map((hall) =>
           <li id={hall.id} key={hall.id} name={hall.name} numofrows={hall.num_of_rows} numofseats={hall.num_of_seats}>
-            <input type="radio" className="conf-step__radio" name="chairs-hall" value={hall.name} onClick={handleCatchingInfo} defaultChecked />
+            <input type="radio" className="conf-step__radio" name="chairs-hall" value={hall.name} onChange={handleCatchingInfo} checked={id === hall.id.toString()} />
             <span className="conf-step__selector">{hall.name}</span>
           </li>)
       }</ul>

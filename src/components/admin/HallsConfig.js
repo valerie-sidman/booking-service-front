@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import ConfigSection from './ConfigSection';
 import ConfigHeader from './ConfigHeader';
 import ConfigWrapper from './ConfigWrapper';
-import PopupControls from './PopupControls';
+import ChangeControls from './ChangeControls';
 import HallsList from './HallsList';
 import {
   rowsSeatsAdding,
+  catchingInfoByClickingOnHall,
   changeField
 } from '../../actions/actionCreators';
 
@@ -18,7 +19,7 @@ export default function HallsConfig() {
   function creatingSeats() {
     let seats = [];
     for (let is = 0; is < numOfSeats; is++) {
-      seats.push(<span className="conf-step__chair conf-step__chair_standart"></span>);
+      seats.push(<span key={is} className="conf-step__chair conf-step__chair_standart"></span>);
     }
     return seats;
   }
@@ -26,7 +27,7 @@ export default function HallsConfig() {
   function creatingSchemaHall() {
     let rows = [];
     for (let ir = 0; ir < numOfRows; ir++) {
-      rows.push(<div className="conf-step__row">
+      rows.push(<div key={ir} className="conf-step__row">
         {creatingSeats()}
       </div>);
     }
@@ -38,8 +39,12 @@ export default function HallsConfig() {
     dispatch(changeField(name, value));
   }
 
-  const handleSubmitSchema= () => {
+  const handleSubmitSchema = () => {
     rowsSeatsAdding(dispatch, id, numOfRows, numOfSeats);
+  }
+
+  const handleCancelSchema = () => {
+    dispatch(catchingInfoByClickingOnHall('', '', '', ''));
   }
 
   return (
@@ -52,11 +57,11 @@ export default function HallsConfig() {
           <p className="conf-step__paragraph">Укажите количество рядов и максимальное количество кресел в ряду:</p>
           <div className="conf-step__legend">
             <label className="conf-step__label">Рядов, шт
-              <input type="text" className="conf-step__input" name="numOfRows" value={numOfRows} onChange={handleChange} />
+              <input type="text" className="conf-step__input" placeholder="0" name="numOfRows" value={numOfRows} onChange={handleChange} />
             </label>
             <span className="multiplier">x</span>
             <label className="conf-step__label">Мест, шт
-              <input type="text" className="conf-step__input" name="numOfSeats" value={numOfSeats} onChange={handleChange} />
+              <input type="text" className="conf-step__input" placeholder="0" name="numOfSeats" value={numOfSeats} onChange={handleChange} />
             </label>
           </div>
 
@@ -73,7 +78,7 @@ export default function HallsConfig() {
               {creatingSchemaHall()}
             </div>
           </div>
-          <PopupControls title="Сохранить" action={() => handleSubmitSchema()}/>
+          <ChangeControls actionSubmit={() => handleSubmitSchema()} actionCancel={() => handleCancelSchema()}/>
         </ConfigWrapper>
       </ConfigSection>
     </React.Fragment>
