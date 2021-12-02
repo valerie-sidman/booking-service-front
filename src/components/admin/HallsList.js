@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   hallsListFetch,
   hallsListFailure,
-  catchingInfoByClickingOnHall
+  catchingInfoByClickingOnHall,
+  seatsListFetch,
 } from '../../actions/actionCreators';
 
 export default function HallsList() {
@@ -24,12 +25,14 @@ export default function HallsList() {
   }, []);
 
   function handleCatchingInfo(evt) {
+    seatsListFetch(dispatch, evt.target.parentElement.id);
     dispatch(catchingInfoByClickingOnHall(
       evt.target.parentElement.id,
       evt.target.parentElement.getAttribute('name'),
       evt.target.parentElement.getAttribute('numofrows'),
       evt.target.parentElement.getAttribute('numofseats'),
     ));
+
   }
 
   return (

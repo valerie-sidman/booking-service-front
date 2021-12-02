@@ -6,6 +6,9 @@ import {
   HALL_ADDING_FAILURE,
   CATCHING_INFO_BY_CLICKING_ON_HALL,
   ROWS_SEATS_ADDING_FAILURE,
+  SEATS_LIST_FAILURE,
+  SEATS_LIST_SUCCESS,
+  SEATS_ADDING_FAILURE,
   POPUP_ADDING_TOGGLE,
   POPUP_DELETING_TOGGLE,
   CHANGE_FIELD,
@@ -142,7 +145,59 @@ export function catchingInfoByClickingOnHall(id, name, numOfRows, numOfSeats) {
   }
 }
 
+// SEATS LIST 
 
+export function seatsListFailure(error) {
+  return {
+    type: SEATS_LIST_FAILURE,
+    payload: { error }
+  }
+}
+
+export function seatsListSuccess(seats) {
+  return {
+    type: SEATS_LIST_SUCCESS,
+    payload: { seats }
+  }
+}
+
+export function seatsListFetch(dispatch, hallId) {
+  fetch(`http://localhost:8000/api/seats/hall/${hallId}`, {
+    method: 'GET',
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+  }).then((res) => res.json())
+    .then((data) => {
+      dispatch(seatsListSuccess(data))
+    })
+    .catch((e) => {
+      dispatch(seatsListFailure(e.message))
+    })
+}
+
+// SEATS ADDING
+
+export function seatsAddingFailure(error) {
+  return {
+    type: SEATS_ADDING_FAILURE,
+    payload: { error }
+  }
+}
+
+export function seatsAdding(dispatch, seats) {
+  fetch("http://localhost:8000/api/seats", {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    }),
+    body: JSON.stringify(seats),
+  }).then((res) => res.json())
+    .catch((e) => {
+      dispatch(seatsAddingFailure(e.message))
+    })
+}
 
 // POPUP TOGGLE
 

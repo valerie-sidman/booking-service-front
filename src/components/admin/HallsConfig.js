@@ -8,6 +8,7 @@ import HallsList from './HallsList';
 import {
   rowsSeatsAdding,
   catchingInfoByClickingOnHall,
+  seatsAdding,
   changeField
 } from '../../actions/actionCreators';
 
@@ -15,10 +16,12 @@ export default function HallsConfig() {
 
   const dispatch = useDispatch();
   const { id, numOfRows, numOfSeats } = useSelector(state => state.serviceCatchingInfo);
+  const { seats } = useSelector(state => state.serviceSeatsList);
 
-  function creatingSeats() {
+  function creatingSeats(row) {
     let seats = [];
     for (let is = 0; is < numOfSeats; is++) {
+      const seat = seats.find((seat) => seat.number === is + 1 && seat.row === row);
       seats.push(<span key={is} className="conf-step__chair conf-step__chair_standart"></span>);
     }
     return seats;
@@ -28,7 +31,7 @@ export default function HallsConfig() {
     let rows = [];
     for (let ir = 0; ir < numOfRows; ir++) {
       rows.push(<div key={ir} className="conf-step__row">
-        {creatingSeats()}
+        {creatingSeats(ir + 1)}
       </div>);
     }
     return rows;
