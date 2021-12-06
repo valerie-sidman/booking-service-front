@@ -1,6 +1,7 @@
 import {
   SEATS_LIST_FAILURE,
   SEATS_LIST_SUCCESS,
+  SEATS_LIST_UPDATE,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -21,6 +22,13 @@ export default function seatsListReducer(state = initialState, action) {
       return {
         ...state,
         seats,
+        error: null,
+      }
+    case SEATS_LIST_UPDATE:
+      const { updatedSeatsList } = action.payload;
+      return {
+        ...state,
+        seats: updatedSeatsList,
         error: null,
       }
     default:

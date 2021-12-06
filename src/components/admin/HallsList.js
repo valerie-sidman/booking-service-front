@@ -32,7 +32,6 @@ export default function HallsList() {
       evt.target.parentElement.getAttribute('numofrows'),
       evt.target.parentElement.getAttribute('numofseats'),
     ));
-
   }
 
   return (

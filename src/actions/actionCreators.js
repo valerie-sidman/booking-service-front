@@ -8,6 +8,7 @@ import {
   ROWS_SEATS_ADDING_FAILURE,
   SEATS_LIST_FAILURE,
   SEATS_LIST_SUCCESS,
+  SEATS_LIST_UPDATE,
   SEATS_ADDING_FAILURE,
   POPUP_ADDING_TOGGLE,
   POPUP_DELETING_TOGGLE,
@@ -176,6 +177,13 @@ export function seatsListFetch(dispatch, hallId) {
     })
 }
 
+export function seatsListUpdate(updatedSeatsList) {
+  return {
+    type: SEATS_LIST_UPDATE,
+    payload: { updatedSeatsList }
+  }
+}
+
 // SEATS ADDING
 
 export function seatsAddingFailure(error) {
@@ -185,14 +193,14 @@ export function seatsAddingFailure(error) {
   }
 }
 
-export function seatsAdding(dispatch, seats) {
-  fetch("http://localhost:8000/api/seats", {
-    method: 'POST',
+export function seatsAdding(dispatch, hallId, seats) {
+  fetch(`http://localhost:8000/api/seats/hall/${hallId}`, {
+    method: 'PUT',
     headers: new Headers({
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
     }),
-    body: JSON.stringify(seats),
+    body: JSON.stringify({ seats }),
   }).then((res) => res.json())
     .catch((e) => {
       dispatch(seatsAddingFailure(e.message))
