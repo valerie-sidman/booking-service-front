@@ -4,10 +4,20 @@ import {
 } from '../actions/actionTypes';
 
 const initialState = {
-  id: '',
-  name: '',
-  numOfRows: '',
-  numOfSeats: '',
+
+  halls: {
+    id: '',
+    name: '',
+    numOfRows: '',
+    numOfSeats: '',
+  },
+
+  price: {
+    id: '',
+    regular: '',
+    vip: '',
+  },
+
 }
 
 export default function catchingInfoReducer(state = initialState, action) {
@@ -16,15 +26,12 @@ export default function catchingInfoReducer(state = initialState, action) {
       const { id, name, numOfRows, numOfSeats } = action.payload;
       return {
         ...state,
-        id,
-        name,
-        numOfRows,
-        numOfSeats,
+        halls: { id, name, numOfRows, numOfSeats },
       }
     case CHANGE_FIELD:
       return {
         ...state,
-        [action.payload.name]: action.payload.value,
+        halls: { ...state.halls, [action.payload.name]: action.payload.value },
       }
     default:
       return state;

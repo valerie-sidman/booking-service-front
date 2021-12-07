@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import HeaderAdmin from './HeaderAdmin';
 import HallsManagement from './HallsManagement';
 import HallsConfig from './HallsConfig';
+import PriceConfig from './PriceConfig';
 import AddHall from './AddHall';
 import DeleteHall from './DeleteHall';
 
@@ -21,6 +22,7 @@ export default function MainAdmin() {
         <main className="conf-steps">
           <HallsManagement />
           <HallsConfig />
+          {/* <PriceConfig /> */}
         </main>
       : <Navigate to={"/admin"} />}
     </React.Fragment>

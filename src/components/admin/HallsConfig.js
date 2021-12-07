@@ -16,7 +16,7 @@ import {
 export default function HallsConfig() {
 
   const dispatch = useDispatch();
-  const { id, numOfRows, numOfSeats } = useSelector(state => state.serviceCatchingInfo);
+  const { id, numOfRows, numOfSeats } = useSelector(state => state.serviceCatchingInfo).halls;
   const { seats } = useSelector(state => state.serviceSeatsList);
 
   function handleChangeSeatType(evt) {
@@ -83,6 +83,7 @@ export default function HallsConfig() {
   }
 
   const handleChange = evt => {
+    seats.splice(0, seats.length);
     const { name, value } = evt.target;
     dispatch(changeField(name, value));
   }
@@ -127,6 +128,7 @@ export default function HallsConfig() {
               {creatingSchemaHall()}
             </div>
           </div>
+
           <ChangeControls actionSubmit={() => handleSubmitSchema()} actionCancel={() => handleCancelSchema()}/>
         </ConfigWrapper>
       </ConfigSection>

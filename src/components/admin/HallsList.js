@@ -10,7 +10,7 @@ import {
 export default function HallsList() {
 
   const { halls, error } = useSelector(state => state.serviceHallsList);
-  const { id } = useSelector(state => state.serviceCatchingInfo);
+  const { id } = useSelector(state => state.serviceCatchingInfo).halls;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function HallsList() {
 
   return (
     <React.Fragment>
-      <ul className="conf-step__selectors-box">{
+      <ul className="conf-step__selectors-box">{console.log(id)}{
         halls.map((hall) =>
           <li id={hall.id} key={hall.id} name={hall.name} numofrows={hall.num_of_rows} numofseats={hall.num_of_seats}>
             <input type="radio" className="conf-step__radio" name="chairs-hall" value={hall.name} onChange={handleCatchingInfo} checked={id === hall.id.toString()} />
