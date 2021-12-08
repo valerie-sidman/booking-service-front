@@ -4,15 +4,19 @@ import {
   HALLS_LIST_FAILURE,
   HALLS_LIST_SUCCESS,
   HALL_ADDING_FAILURE,
-  CATCHING_INFO_BY_CLICKING_ON_HALL,
+  CATCHING_INFO_SCHEME,
+  CATCHING_INFO_PRICE,
   ROWS_SEATS_ADDING_FAILURE,
   SEATS_LIST_FAILURE,
   SEATS_LIST_SUCCESS,
   SEATS_LIST_UPDATE,
   SEATS_ADDING_FAILURE,
+  PRICE_ADDING_FAILURE,
   POPUP_ADDING_TOGGLE,
   POPUP_DELETING_TOGGLE,
   CHANGE_FIELD,
+  CHANGE_FIELD_SCHEME,
+  CHANGE_FIELD_PRICE
 } from './actionTypes';
 
 // AUTHORIZATION
@@ -96,7 +100,7 @@ export function hallAdding(dispatch, name) {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
     }),
-    body: JSON.stringify({ name, num_of_rows: 0, num_of_seats: 0 }),
+    body: JSON.stringify({ name, num_of_rows: 0, num_of_seats: 0, price_vip: 0, price_regular: 0 }),
   }).then((res) => res.json())
     .catch((e) => {
       dispatch(hallAddingFailure(e.message))
@@ -135,15 +139,6 @@ fetch(`http://localhost:8000/api/halls/${id}`, {
     .catch((e) => {
       dispatch(rowsSeatsAddingFailure(e.message))
     })
-}
-
-// CATCHING INFO BY CLICKING ON HALL
-
-export function catchingInfoByClickingOnHall(id, name, numOfRows, numOfSeats) {
-  return {
-    type: CATCHING_INFO_BY_CLICKING_ON_HALL,
-    payload: { id, name, numOfRows, numOfSeats }
-  }
 }
 
 // SEATS LIST 
@@ -207,6 +202,32 @@ export function seatsAdding(dispatch, hallId, seats) {
     })
 }
 
+// PRICE ADDING
+
+export function priceAddingFailure(error) {
+  return {
+    type: PRICE_ADDING_FAILURE,
+    payload: { error }
+  }
+}
+
+export function priceAdding(dispatch, hallId, vip, regular) {
+  fetch(`http://localhost:8000/api/halls/${hallId}`, {
+    method: 'PUT',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    }),
+    body: JSON.stringify({ 
+      price_vip: vip,
+      price_regular: regular
+    }),
+  }).then((res) => res.json())
+    .catch((e) => {
+      dispatch(priceAddingFailure(e.message))
+    })
+}
+
 // POPUP TOGGLE
 
 export function popupAddingToggle(addingStatus) {
@@ -223,11 +244,41 @@ export function popupDeletingToggle(deletingStatus, delId, delName) {
   }
 }
 
+// CATCHING INFO
+
+export function catchingInfoScheme(hallIdForSchema, name, numOfRows, numOfSeats) {
+  return {
+    type: CATCHING_INFO_SCHEME,
+    payload: { hallIdForSchema, name, numOfRows, numOfSeats }
+  }
+}
+
+export function catchingInfoPrice(hallIdForPrice, vip, regular) {
+  return {
+    type: CATCHING_INFO_PRICE,
+    payload: { hallIdForPrice, vip, regular }
+  }
+}
+
 // CHANGE FIELD
 
 export function changeField(name, value) {
   return {
     type: CHANGE_FIELD,
+    payload: { name, value }
+  }
+}
+
+export function changeFieldScheme(name, value) {
+  return {
+    type: CHANGE_FIELD_SCHEME,
+    payload: { name, value }
+  }
+}
+
+export function changeFieldPrice(name, value) {
+  return {
+    type: CHANGE_FIELD_PRICE,
     payload: { name, value }
   }
 }

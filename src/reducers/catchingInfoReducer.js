@@ -1,37 +1,50 @@
 import {
-  CHANGE_FIELD,
-  CATCHING_INFO_BY_CLICKING_ON_HALL
+  CHANGE_FIELD_SCHEME,
+  CHANGE_FIELD_PRICE,
+  CATCHING_INFO_SCHEME,
+  CATCHING_INFO_PRICE
 } from '../actions/actionTypes';
 
 const initialState = {
 
   halls: {
-    id: '',
+    hallIdForSchema: '',
     name: '',
     numOfRows: '',
     numOfSeats: '',
   },
 
   price: {
-    id: '',
-    regular: '',
+    hallIdForPrice: '',
     vip: '',
+    regular: '',
   },
 
 }
 
 export default function catchingInfoReducer(state = initialState, action) {
   switch (action.type) {
-    case CATCHING_INFO_BY_CLICKING_ON_HALL:
-      const { id, name, numOfRows, numOfSeats } = action.payload;
+    case CATCHING_INFO_SCHEME:
+      const { hallIdForSchema, name, numOfRows, numOfSeats } = action.payload;
       return {
         ...state,
-        halls: { id, name, numOfRows, numOfSeats },
+        halls: { hallIdForSchema, name, numOfRows, numOfSeats },
       }
-    case CHANGE_FIELD:
+    case CATCHING_INFO_PRICE:
+      const { hallIdForPrice, vip, regular } = action.payload;
+      return {
+        ...state,
+        price: { hallIdForPrice, vip, regular },
+      }
+    case CHANGE_FIELD_SCHEME:
       return {
         ...state,
         halls: { ...state.halls, [action.payload.name]: action.payload.value },
+      }
+    case CHANGE_FIELD_PRICE:
+      return {
+        ...state,
+        price: { ...state.price, [action.payload.name]: action.payload.value },
       }
     default:
       return state;

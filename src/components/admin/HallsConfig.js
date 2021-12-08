@@ -6,17 +6,18 @@ import ConfigWrapper from './ConfigWrapper';
 import ChangeControls from './ChangeControls';
 import HallsList from './HallsList';
 import {
+  hallsListFetch,
   rowsSeatsAdding,
-  catchingInfoByClickingOnHall,
+  catchingInfoScheme,
   seatsListUpdate,
   seatsAdding,
-  changeField
+  changeFieldScheme
 } from '../../actions/actionCreators';
 
 export default function HallsConfig() {
 
   const dispatch = useDispatch();
-  const { id, numOfRows, numOfSeats } = useSelector(state => state.serviceCatchingInfo).halls;
+  const { hallIdForSchema, numOfRows, numOfSeats } = useSelector(state => state.serviceCatchingInfo).halls;
   const { seats } = useSelector(state => state.serviceSeatsList);
 
   function handleChangeSeatType(evt) {
@@ -52,7 +53,7 @@ export default function HallsConfig() {
           number: (is + 1).toString(),
           row: row.toString(),
           type: 'regular',
-          hall_id: id,
+          hall_id: hallIdForSchema,
         }
 
         seats.push(seat);
@@ -85,16 +86,17 @@ export default function HallsConfig() {
   const handleChange = evt => {
     seats.splice(0, seats.length);
     const { name, value } = evt.target;
-    dispatch(changeField(name, value));
+    dispatch(changeFieldScheme(name, value));
   }
 
   const handleSubmitSchema = () => {
-    rowsSeatsAdding(dispatch, id, numOfRows, numOfSeats);
-    seatsAdding(dispatch, id, seats);
+    rowsSeatsAdding(dispatch, hallIdForSchema, numOfRows, numOfSeats);
+    seatsAdding(dispatch, hallIdForSchema, seats);
+    hallsListFetch(dispatch);
   }
 
   const handleCancelSchema = () => {
-    dispatch(catchingInfoByClickingOnHall('', '', '', ''));
+    dispatch(catchingInfoScheme('', '', '', ''));
   }
 
   return (
@@ -102,7 +104,7 @@ export default function HallsConfig() {
       <ConfigSection>
         <ConfigHeader title="Конфигурация залов" />
         <ConfigWrapper paragraph="Выберите зал для конфигурации:">
-          <HallsList />
+          <HallsList type='scheme' />
 
           <p className="conf-step__paragraph">Укажите количество рядов и максимальное количество кресел в ряду:</p>
           <div className="conf-step__legend">
@@ -129,7 +131,7 @@ export default function HallsConfig() {
             </div>
           </div>
 
-          <ChangeControls actionSubmit={() => handleSubmitSchema()} actionCancel={() => handleCancelSchema()}/>
+          <ChangeControls actionSubmit={() => handleSubmitSchema()} actionCancel={() => handleCancelSchema()} />
         </ConfigWrapper>
       </ConfigSection>
     </React.Fragment>

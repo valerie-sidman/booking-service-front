@@ -1,6 +1,9 @@
 import { HALL_ADDING_FAILURE, CHANGE_FIELD } from '../actions/actionTypes';
 
-const initialState = { error: null }
+const initialState = {
+  name: '',
+  error: null 
+}
 
 export default function hallAddingReducer(state = initialState, action) {
   switch (action.type) {

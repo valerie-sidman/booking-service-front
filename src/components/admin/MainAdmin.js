@@ -22,7 +22,7 @@ export default function MainAdmin() {
         <main className="conf-steps">
           <HallsManagement />
           <HallsConfig />
-          {/* <PriceConfig /> */}
+          <PriceConfig />
         </main>
       : <Navigate to={"/admin"} />}
     </React.Fragment>

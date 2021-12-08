@@ -45,7 +45,7 @@ export default function AddHall(props) {
         <form action="add_hall" method="post" acceptCharset="utf-8" onSubmit={handleSubmit}>
           <label className="conf-step__label conf-step__label-fullsize" htmlFor="name">
             Название зала
-            <input className="conf-step__inputв" type="text" placeholder="Например, &laquo;Зал 1&raquo;" name="name" value={name} onChange={handleChange} required />
+            <input className="conf-step__input" type="text" placeholder="Например, &laquo;Зал 1&raquo;" name="name" value={name} onChange={handleChange} required />
           </label>
           <PopupControls title="Добавить зал" action={handleRedirect} />
         </form>
