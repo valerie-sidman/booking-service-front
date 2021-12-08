@@ -12,6 +12,10 @@ import {
   SEATS_LIST_UPDATE,
   SEATS_ADDING_FAILURE,
   PRICE_ADDING_FAILURE,
+  MOVIES_LIST_FAILURE,
+  MOVIES_LIST_SUCCESS,
+  SESSIONS_LIST_FAILURE,
+  SESSIONS_LIST_SUCCESS,
   POPUP_ADDING_TOGGLE,
   POPUP_DELETING_TOGGLE,
   CHANGE_FIELD,
@@ -225,6 +229,68 @@ export function priceAdding(dispatch, hallId, vip, regular) {
   }).then((res) => res.json())
     .catch((e) => {
       dispatch(priceAddingFailure(e.message))
+    })
+}
+
+// MOVIES LIST
+
+export function moviesListFailure(error) {
+  return {
+    type: MOVIES_LIST_FAILURE,
+    payload: { error }
+  }
+}
+
+export function moviesListSuccess(movies) {
+  return {
+    type: MOVIES_LIST_SUCCESS,
+    payload: { movies }
+  }
+}
+
+export function moviesListFetch(dispatch) {
+  fetch("http://localhost:8000/api/movies", {
+    method: 'GET',
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+  }).then((res) => res.json())
+    .then((data) => {
+      dispatch(moviesListSuccess(data))
+    })
+    .catch((e) => {
+      dispatch(moviesListFailure(e.message))
+    })
+}
+
+// SESSIONS LIST
+
+export function sessionsListFailure(error) {
+  return {
+    type: SESSIONS_LIST_FAILURE,
+    payload: { error }
+  }
+}
+
+export function sessionsListSuccess(sessions) {
+  return {
+    type: SESSIONS_LIST_SUCCESS,
+    payload: { sessions }
+  }
+}
+
+export function sessionsListFetch(dispatch) {
+  fetch("http://localhost:8000/api/halls/sessions", {
+    method: 'GET',
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+  }).then((res) => res.json())
+    .then((data) => {
+      dispatch(sessionsListSuccess(data))
+    })
+    .catch((e) => {
+      dispatch(sessionsListFailure(e.message))
     })
 }
 

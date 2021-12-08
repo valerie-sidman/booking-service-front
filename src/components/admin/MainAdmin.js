@@ -5,6 +5,7 @@ import HeaderAdmin from './HeaderAdmin';
 import HallsManagement from './HallsManagement';
 import HallsConfig from './HallsConfig';
 import PriceConfig from './PriceConfig';
+import SessionGrid from './SessionGrid';
 import AddHall from './AddHall';
 import DeleteHall from './DeleteHall';
 
@@ -23,6 +24,7 @@ export default function MainAdmin() {
           <HallsManagement />
           <HallsConfig />
           <PriceConfig />
+          <SessionGrid />
         </main>
       : <Navigate to={"/admin"} />}
     </React.Fragment>

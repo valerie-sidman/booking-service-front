@@ -3,7 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import ConfigSection from './ConfigSection';
 import ConfigHeader from './ConfigHeader';
 import ConfigWrapper from './ConfigWrapper';
-import { hallsListFetch, hallsListFailure, popupAddingToggle, popupDeletingToggle } from '../../actions/actionCreators';
+import { 
+  hallsListFetch, 
+  hallsListFailure, 
+  popupAddingToggle, 
+  popupDeletingToggle 
+} from '../../actions/actionCreators';
 
 export default function HallsManagement() {
 
@@ -12,7 +17,7 @@ export default function HallsManagement() {
 
   useEffect(() => {
     if (error) {
-      alert('Something wrong with backend', error);
+      alert('Trying to fetch halls, but something wrong with backend', error);
       dispatch(hallsListFailure(''));
       } else if (halls) {
       hallsListFetch(dispatch);
