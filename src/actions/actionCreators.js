@@ -129,13 +129,13 @@ export function rowsSeatsAddingFailure(error) {
 }
 
 export function rowsSeatsAdding(dispatch, id, numOfRows, numOfSeats) {
-fetch(`http://localhost:8000/api/halls/${id}`, {
+  fetch(`http://localhost:8000/api/halls/${id}`, {
     method: 'PUT',
     headers: new Headers({
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
     }),
-    body: JSON.stringify({ 
+    body: JSON.stringify({
       num_of_rows: numOfRows,
       num_of_seats: numOfSeats
     }),
@@ -222,7 +222,7 @@ export function priceAdding(dispatch, hallId, vip, regular) {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
     }),
-    body: JSON.stringify({ 
+    body: JSON.stringify({
       price_vip: vip,
       price_regular: regular
     }),
@@ -263,6 +263,19 @@ export function moviesListFetch(dispatch) {
     })
 }
 
+// MOVIE ADDING
+
+export function movieAdding(dispatch, name, description, duration, production_country) {
+  fetch("http://localhost:8000/api/movies", {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    }),
+    body: JSON.stringify({ name, description, duration, production_country }),
+  }).then((res) => res.json())
+}
+
 // SESSIONS LIST
 
 export function sessionsListFailure(error) {
@@ -292,6 +305,19 @@ export function sessionsListFetch(dispatch) {
     .catch((e) => {
       dispatch(sessionsListFailure(e.message))
     })
+}
+
+// SESSION ADDING
+
+export function sessionAdding(dispatch, movieId, hallId, hours, minutes) {
+  fetch("http://localhost:8000/api/sessions", {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    }),
+    body: JSON.stringify({ movie_id: movieId, hall_id: hallId, hours, minutes }),
+  }).then((res) => res.json())
 }
 
 // POPUP TOGGLE

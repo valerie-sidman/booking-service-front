@@ -8,7 +8,8 @@ import {
   moviesListFailure,
   moviesListFetch,
   sessionsListFailure,
-  sessionsListFetch
+  sessionsListFetch,
+  popupAddingToggle
 } from '../../actions/actionCreators';
 
 export default function SessionGrid() {
@@ -31,33 +32,53 @@ export default function SessionGrid() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handlePopupAddingMovie = () => {
+    dispatch(popupAddingToggle(true));
+  }
+
+  const dragoverHandler = (evt) => {
+    evt.preventDefault();
+  }
+  
+  function dropHandler(evt) {
+    evt.preventDefault();
+   }
+
   return (
     <React.Fragment>
       <ConfigSection>
         <ConfigHeader title="Сетка сеансов" />
-        <ConfigWrapper paragraph={<button className="conf-step__button conf-step__button-accent">Добавить фильм</button>}>
+        <ConfigWrapper paragraph={<button className="conf-step__button conf-step__button-accent" onClick={handlePopupAddingMovie}>Добавить фильм</button>}>
 
           <div className="conf-step__movies">
             {movies.map((movie) =>
-              <div key={movie.id} className="conf-step__movie">
+              <div key={movie.id} className="conf-step__movie" draggable="true">
                 <img className="conf-step__movie-poster" alt="poster" src={poster} />
                 <h3 className="conf-step__movie-title">{movie.name}</h3>
-                <p className="conf-step__movie-duration">{movie.duration}</p>
+                <p className="conf-step__movie-duration">{movie.duration} минут</p>
               </div>
             )}
           </div>
 
-          <div className="conf-step__seances">
+          <div className="conf-step__seances" onDrop={dropHandler}>
             {sessions.map((hall) =>
               <div key={hall.id} className="conf-step__seances-hall">
                 <h3 className="conf-step__seances-title">{hall.name}</h3>
                 <div className="conf-step__seances-timeline">
-                  {hall.session.map((session) =>
-                    <div key={session.id} className="conf-step__seances-movie" style={{ width: "60px", backgroundColor: "rgb(133, 255, 137)", left: 0 }}>
+                  {hall.session.map((session) => {
+                    
+                    const calculatedWidth = (Math.ceil(session.movie.duration / 10) *  5) + 'px';
+                    const calculatedLeftMargin = ((session.hours * 30) + (Math.ceil(session.minutes / 10) *  5)) + 'px';
+
+                    return <div key={session.id} className="conf-step__seances-movie" style={
+                      {
+                        width: calculatedWidth, backgroundColor: "rgb(133, 255, 137)", left: calculatedLeftMargin
+                      }
+                    }>
                       <p className="conf-step__seances-movie-title">{session.movie.name}</p>
                       <p className="conf-step__seances-movie-start">{session.hours}:{session.minutes}</p>
                     </div>
-                  )}
+                  })}
                 </div>
               </div>
             )}

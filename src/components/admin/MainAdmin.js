@@ -8,6 +8,7 @@ import PriceConfig from './PriceConfig';
 import SessionGrid from './SessionGrid';
 import AddHall from './AddHall';
 import DeleteHall from './DeleteHall';
+import AddMovie from './AddMovie';
 
 export default function MainAdmin() {
 
@@ -18,6 +19,7 @@ export default function MainAdmin() {
     <React.Fragment>
       <AddHall active={addingStatus}/>
       <DeleteHall id={delId} name={delName} active={deletingStatus}/>
+      <AddMovie active={addingStatus}/>
       <HeaderAdmin />
       {result.result === 'Ok' ?
         <main className="conf-steps">
