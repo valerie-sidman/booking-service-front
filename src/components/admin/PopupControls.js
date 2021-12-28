@@ -1,7 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { popupAddingToggle, popupDeletingToggle } from '../../actions/actionCreators';
+import { 
+  popupAddingToggleHall, 
+  popupAddingToggleMovie,
+  popupAddingToggleSession,
+  popupDeletingToggle 
+} from '../../actions/actionCreators';
 
 export default function PopupControls(props) {
 
@@ -11,7 +16,9 @@ export default function PopupControls(props) {
   const handleСancel = (evt) => {
     evt.preventDefault();
     navigate("/admin/authorized");
-    dispatch(popupAddingToggle(false));
+    dispatch(popupAddingToggleHall(false));
+    dispatch(popupAddingToggleMovie(false));
+    dispatch(popupAddingToggleSession(false));
     dispatch(popupDeletingToggle(false));
   }
 

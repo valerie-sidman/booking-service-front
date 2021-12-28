@@ -6,7 +6,7 @@ import ConfigWrapper from './ConfigWrapper';
 import { 
   hallsListFetch, 
   hallsListFailure, 
-  popupAddingToggle, 
+  popupAddingToggleHall, 
   popupDeletingToggle 
 } from '../../actions/actionCreators';
 
@@ -27,7 +27,7 @@ export default function HallsManagement() {
 
 
   const handlePopupAddingHall = () => {
-    dispatch(popupAddingToggle(true));
+    dispatch(popupAddingToggleHall(true));
   }
 
   const handlePopupDeletingHall = (e) => {

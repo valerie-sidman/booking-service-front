@@ -9,7 +9,10 @@ import {
   moviesListFetch,
   sessionsListFailure,
   sessionsListFetch,
-  popupAddingToggle
+  popupAddingToggleMovie,
+  popupAddingToggleSession,
+  catchingInfoSessionMovieId,
+  catchingInfoSessionHallId
 } from '../../actions/actionCreators';
 
 export default function SessionGrid() {
@@ -33,16 +36,25 @@ export default function SessionGrid() {
   }, []);
 
   const handlePopupAddingMovie = () => {
-    dispatch(popupAddingToggle(true));
+    dispatch(popupAddingToggleMovie(true));
   }
 
-  const dragoverHandler = (evt) => {
-    evt.preventDefault();
-  }
-  
-  function dropHandler(evt) {
-    evt.preventDefault();
+  function dragover_handler(ev) {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "move";
    }
+
+  function dragstart_handler(ev) {
+    console.log("drag");
+    const draggingMovieId = ev.target.id;
+    dispatch(catchingInfoSessionMovieId(draggingMovieId));
+  }
+
+  function drop_handler(ev) {
+    console.log("drop");
+    const dropHallId = ev.target.closest('.conf-step__seances-hall').id;
+    dispatch(catchingInfoSessionHallId(dropHallId));
+  }
 
   return (
     <React.Fragment>
@@ -52,7 +64,7 @@ export default function SessionGrid() {
 
           <div className="conf-step__movies">
             {movies.map((movie) =>
-              <div key={movie.id} className="conf-step__movie" draggable="true">
+              <div id={movie.id} key={movie.id} className="conf-step__movie" onDragStart={dragstart_handler} draggable="true">
                 <img className="conf-step__movie-poster" alt="poster" src={poster} />
                 <h3 className="conf-step__movie-title">{movie.name}</h3>
                 <p className="conf-step__movie-duration">{movie.duration} минут</p>
@@ -60,15 +72,15 @@ export default function SessionGrid() {
             )}
           </div>
 
-          <div className="conf-step__seances" onDrop={dropHandler}>
+          <div className="conf-step__seances" >
             {sessions.map((hall) =>
-              <div key={hall.id} className="conf-step__seances-hall">
+              <div id={hall.id} key={hall.id} className="conf-step__seances-hall" onDrop={drop_handler} onDragOver={dragover_handler}>
                 <h3 className="conf-step__seances-title">{hall.name}</h3>
                 <div className="conf-step__seances-timeline">
                   {hall.session.map((session) => {
-                    
-                    const calculatedWidth = (Math.ceil(session.movie.duration / 10) *  5) + 'px';
-                    const calculatedLeftMargin = ((session.hours * 30) + (Math.ceil(session.minutes / 10) *  5)) + 'px';
+
+                    const calculatedWidth = (Math.ceil(session.movie.duration / 10) * 5) + 'px';
+                    const calculatedLeftMargin = ((session.hours * 30) + (Math.ceil(session.minutes / 10) * 5)) + 'px';
 
                     return <div key={session.id} className="conf-step__seances-movie" style={
                       {

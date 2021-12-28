@@ -6,6 +6,8 @@ import {
   HALL_ADDING_FAILURE,
   CATCHING_INFO_SCHEME,
   CATCHING_INFO_PRICE,
+  CATCHING_INFO_SESSION_MOVIE_ID,
+  CATCHING_INFO_SESSION_HALL_ID,
   ROWS_SEATS_ADDING_FAILURE,
   SEATS_LIST_FAILURE,
   SEATS_LIST_SUCCESS,
@@ -16,7 +18,9 @@ import {
   MOVIES_LIST_SUCCESS,
   SESSIONS_LIST_FAILURE,
   SESSIONS_LIST_SUCCESS,
-  POPUP_ADDING_TOGGLE,
+  POPUP_ADDING_TOGGLE_HALL,
+  POPUP_ADDING_TOGGLE_MOVIE,
+  POPUP_ADDING_TOGGLE_SESSION,
   POPUP_DELETING_TOGGLE,
   CHANGE_FIELD,
   CHANGE_FIELD_SCHEME,
@@ -322,10 +326,24 @@ export function sessionAdding(dispatch, movieId, hallId, hours, minutes) {
 
 // POPUP TOGGLE
 
-export function popupAddingToggle(addingStatus) {
+export function popupAddingToggleHall(addingStatusHall) {
   return {
-    type: POPUP_ADDING_TOGGLE,
-    payload: { addingStatus },
+    type: POPUP_ADDING_TOGGLE_HALL,
+    payload: { addingStatusHall },
+  }
+}
+
+export function popupAddingToggleMovie(addingStatusMovie) {
+  return {
+    type: POPUP_ADDING_TOGGLE_MOVIE,
+    payload: { addingStatusMovie },
+  }
+}
+
+export function popupAddingToggleSession(addingStatusSession) {
+  return {
+    type: POPUP_ADDING_TOGGLE_SESSION,
+    payload: { addingStatusSession },
   }
 }
 
@@ -349,6 +367,20 @@ export function catchingInfoPrice(hallIdForPrice, vip, regular) {
   return {
     type: CATCHING_INFO_PRICE,
     payload: { hallIdForPrice, vip, regular }
+  }
+}
+
+export function catchingInfoSessionMovieId(movieId) {
+  return {
+    type: CATCHING_INFO_SESSION_MOVIE_ID,
+    payload: { movieId}
+  }
+}
+
+export function catchingInfoSessionHallId(hallId) {
+  return {
+    type: CATCHING_INFO_SESSION_HALL_ID,
+    payload: { hallId}
   }
 }
 

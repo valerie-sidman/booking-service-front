@@ -6,7 +6,7 @@ import PopupControls from './PopupControls';
 import { 
   moviesListFetch,
   movieAdding,
-  popupAddingToggle,
+  popupAddingToggleMovie,
   changeField 
 } from '../../actions/actionCreators';
 
@@ -33,7 +33,7 @@ export default function AddMovie(props) {
 
   const handleRedirect = () => {
     navigate("/admin/authorized");
-    dispatch(popupAddingToggle(false));
+    dispatch(popupAddingToggleMovie(false));
   }
 
   return (

@@ -1,7 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import closeImg from '../../i/close.png';
-import { popupAddingToggle, popupDeletingToggle } from '../../actions/actionCreators';
+import { 
+  popupAddingToggleHall, 
+  popupAddingToggleMovie,
+  popupAddingToggleSession,
+  popupDeletingToggle 
+} from '../../actions/actionCreators';
 
 export default function Popup(props) {
 
@@ -9,7 +14,9 @@ export default function Popup(props) {
 
   const handleClosePopup = (evt) => {
     evt.preventDefault();
-    dispatch(popupAddingToggle(false));
+    dispatch(popupAddingToggleHall(false));
+    dispatch(popupAddingToggleMovie(false));
+    dispatch(popupAddingToggleSession(false));
     dispatch(popupDeletingToggle(false));
   }
 

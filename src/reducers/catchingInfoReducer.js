@@ -2,7 +2,9 @@ import {
   CHANGE_FIELD_SCHEME,
   CHANGE_FIELD_PRICE,
   CATCHING_INFO_SCHEME,
-  CATCHING_INFO_PRICE
+  CATCHING_INFO_PRICE,
+  CATCHING_INFO_SESSION_MOVIE_ID,
+  CATCHING_INFO_SESSION_HALL_ID
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -20,6 +22,14 @@ const initialState = {
     regular: '',
   },
 
+  sessionMovieId: {
+    movieId: '',
+  },
+
+  sessionHallId: {
+    hallId: '',
+  },
+
 }
 
 export default function catchingInfoReducer(state = initialState, action) {
@@ -35,6 +45,18 @@ export default function catchingInfoReducer(state = initialState, action) {
       return {
         ...state,
         price: { hallIdForPrice, vip, regular },
+      }
+    case CATCHING_INFO_SESSION_MOVIE_ID:
+      const { movieId } = action.payload;
+      return {
+        ...state,
+        sessionMovieId: { movieId },
+      }
+    case CATCHING_INFO_SESSION_HALL_ID:
+      const { hallId } = action.payload;
+      return {
+        ...state,
+        sessionHallId: { hallId },
       }
     case CHANGE_FIELD_SCHEME:
       return {

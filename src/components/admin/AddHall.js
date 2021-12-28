@@ -7,7 +7,7 @@ import {
   hallsListFetch, 
   hallAdding, 
   hallAddingFailure, 
-  popupAddingToggle,
+  popupAddingToggleHall,
   changeField 
 } from '../../actions/actionCreators';
 
@@ -36,7 +36,7 @@ export default function AddHall(props) {
 
   const handleRedirect = () => {
     navigate("/admin/authorized");
-    dispatch(popupAddingToggle(false));
+    dispatch(popupAddingToggleHall(false));
   }
 
   return (
