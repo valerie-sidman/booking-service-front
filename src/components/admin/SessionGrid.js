@@ -45,15 +45,14 @@ export default function SessionGrid() {
    }
 
   function dragstart_handler(ev) {
-    console.log("drag");
     const draggingMovieId = ev.target.id;
     dispatch(catchingInfoSessionMovieId(draggingMovieId));
   }
 
   function drop_handler(ev) {
-    console.log("drop");
     const dropHallId = ev.target.closest('.conf-step__seances-hall').id;
     dispatch(catchingInfoSessionHallId(dropHallId));
+    dispatch(popupAddingToggleSession(true));
   }
 
   return (

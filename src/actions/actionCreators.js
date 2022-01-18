@@ -370,17 +370,17 @@ export function catchingInfoPrice(hallIdForPrice, vip, regular) {
   }
 }
 
-export function catchingInfoSessionMovieId(movieId) {
+export function catchingInfoSessionMovieId(sessionMovieId) {
   return {
     type: CATCHING_INFO_SESSION_MOVIE_ID,
-    payload: { movieId}
+    payload: { sessionMovieId}
   }
 }
 
-export function catchingInfoSessionHallId(hallId) {
+export function catchingInfoSessionHallId(sessionHallId) {
   return {
     type: CATCHING_INFO_SESSION_HALL_ID,
-    payload: { hallId}
+    payload: { sessionHallId}
   }
 }
 

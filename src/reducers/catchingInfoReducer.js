@@ -23,11 +23,11 @@ const initialState = {
   },
 
   sessionMovieId: {
-    movieId: '',
+    sessionMovieId: '',
   },
 
   sessionHallId: {
-    hallId: '',
+    sessionHallId: '',
   },
 
 }
@@ -47,16 +47,16 @@ export default function catchingInfoReducer(state = initialState, action) {
         price: { hallIdForPrice, vip, regular },
       }
     case CATCHING_INFO_SESSION_MOVIE_ID:
-      const { movieId } = action.payload;
+      const { sessionMovieId } = action.payload;
       return {
         ...state,
-        sessionMovieId: { movieId },
+        sessionMovieId: { sessionMovieId },
       }
     case CATCHING_INFO_SESSION_HALL_ID:
-      const { hallId } = action.payload;
+      const { sessionHallId } = action.payload;
       return {
         ...state,
-        sessionHallId: { hallId },
+        sessionHallId: { sessionHallId },
       }
     case CHANGE_FIELD_SCHEME:
       return {

@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import Popup from './Popup';
 import PopupControls from './PopupControls';
 import {
-  hallsListFetch,
-  moviesListFetch,
   sessionAdding,
   popupAddingToggleSession,
   changeField
@@ -17,26 +15,33 @@ export default function AddSession(props) {
   let navigate = useNavigate();
   const { halls } = useSelector(state => state.serviceHallsList);
   const { movies } = useSelector(state => state.serviceMoviesList);
-  const { movieId, hallId, hours, minutes } = useSelector(state => state.serviceSessionsAdding);
-
-  useEffect(() => {
-    moviesListFetch(dispatch);
-    hallsListFetch(dispatch);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { sessionMovieId } = useSelector(state => state.serviceCatchingInfo).sessionMovieId;
+  const { sessionHallId } = useSelector(state => state.serviceCatchingInfo).sessionHallId;
+  const { movieId, hallId, hours, minutes } = useSelector(state => state.serviceSessionAdding);
 
   const handleChange = evt => {
     const { name, value } = evt.target;
     dispatch(changeField(name, value));
+    dispatch(changeField("hours", value.split(':')[0]));
+    dispatch(changeField("minutes", value.split(':')[1]));
+  }
+
+  const handleSelectHall = (e) => {
+    dispatch(changeField("hallId", e.target.value));
+  }
+
+  const handleSelectMovie = (e) => {
+    dispatch(changeField("movieId", e.target.value));
   }
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    sessionAdding(dispatch, movieId, hallId, hours, minutes);
+    sessionAdding(dispatch, movieId ? movieId : sessionMovieId, hallId ? hallId : sessionHallId, hours, minutes);
     dispatch(changeField("movieId", ''));
     dispatch(changeField("hallId", ''));
     dispatch(changeField("hours", ''));
     dispatch(changeField("minutes", ''));
+    dispatch(changeField("time", ''));
   }
 
   const handleRedirect = () => {
@@ -44,30 +49,32 @@ export default function AddSession(props) {
     dispatch(popupAddingToggleSession(false));
   }
 
-  const time = hours + ':' + minutes;
-
   return (
     <React.Fragment>
       <Popup toggleActiveState={props.active === true ? 'popup active' : 'popup'} title="Добавление сеанса">
-        <form action="add_movie" method="post" accept-charset="utf-8" onSubmit={handleSubmit}>
+        <form action="add_movie" method="post" acceptCharset="utf-8" onSubmit={handleSubmit}>
+
           <label className="conf-step__label conf-step__label-fullsize" htmlFor="hall">
             Выберите зал
-            <select className="conf-step__input" name="hall" required>{
-              halls.map((hall) => <option key={hall.id} value={hall.id}>{hall.name}</option>)
+            <select className="conf-step__input" name="hall" onChange={handleSelectHall} required>{
+              halls.map((hall) => <option key={hall.id} value={hall.id}  selected={hall.id == sessionHallId}>{hall.name}</option>)
             }</select>
           </label>
+
           <label className="conf-step__label conf-step__label-fullsize" htmlFor="time">
             Время начала
-            <input className="conf-step__input" type="time" value={time} name="time" onChange={handleChange} required />
+            <input className="conf-step__input" type="time" name="time" onChange={handleChange} required />
           </label>
 
           <label className="conf-step__label conf-step__label-fullsize" htmlFor="movie">
             Выберите фильм
-            <select className="conf-step__input" name="movie" required>{
-              movies.map((movie) => <option key={movie.id} value={movie.id}>{movie.name}</option>)
+            <select className="conf-step__input" name="movie" onChange={handleSelectMovie} required>{
+              movies.map((movie) => <option key={movie.id} value={movie.id} selected={movie.id == sessionMovieId}>{movie.name}</option>)
             }</select>
           </label>
+
           <PopupControls title="Добавить сеанс" action={handleRedirect} />
+
         </form>
       </Popup>
     </React.Fragment>
