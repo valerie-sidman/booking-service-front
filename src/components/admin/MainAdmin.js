@@ -10,11 +10,20 @@ import AddHall from './AddHall';
 import DeleteHall from './DeleteHall';
 import AddMovie from './AddMovie';
 import AddSession from './AddSession';
+import DeleteSession from './DeleteSession';
 
 export default function MainAdmin() {
 
   const { result } = useSelector(state => state.serviceAuthorization);
-  const { addingStatusHall, deletingStatus, addingStatusMovie, addingStatusSession, delId, delName} = useSelector(state => state.servicePopupToggle);
+  const { 
+    addingStatusHall, 
+    deletingStatus, 
+    addingStatusMovie, 
+    addingStatusSession, 
+    deletingStatusSession, 
+    delId, 
+    delName,
+  } = useSelector(state => state.servicePopupToggle);
   
   return (
     <React.Fragment>
@@ -22,6 +31,7 @@ export default function MainAdmin() {
       <DeleteHall id={delId} name={delName} active={deletingStatus}/>
       <AddMovie active={addingStatusMovie}/>
       <AddSession active={addingStatusSession}/>
+      <DeleteSession active={deletingStatusSession}/>
       <HeaderAdmin />
       {result.result === 'Ok' ?
         <main className="conf-steps">

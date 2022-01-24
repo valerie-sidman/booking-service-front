@@ -8,12 +8,15 @@ import {
   CATCHING_INFO_PRICE,
   CATCHING_INFO_SESSION_MOVIE_ID,
   CATCHING_INFO_SESSION_HALL_ID,
+  CATCHING_INFO_SESSION_ID,
+  CATCHING_INFO_DELITING_SESSION_MOVIE_ID,
   ROWS_SEATS_ADDING_FAILURE,
   SEATS_LIST_FAILURE,
   SEATS_LIST_SUCCESS,
   SEATS_LIST_UPDATE,
   SEATS_ADDING_FAILURE,
   PRICE_ADDING_FAILURE,
+  MOVIE_SUCCESS,
   MOVIES_LIST_FAILURE,
   MOVIES_LIST_SUCCESS,
   SESSIONS_LIST_FAILURE,
@@ -22,6 +25,7 @@ import {
   POPUP_ADDING_TOGGLE_MOVIE,
   POPUP_ADDING_TOGGLE_SESSION,
   POPUP_DELETING_TOGGLE,
+  POPUP_DELETING_TOGGLE_SESSION,
   CHANGE_FIELD,
   CHANGE_FIELD_SCHEME,
   CHANGE_FIELD_PRICE
@@ -236,6 +240,27 @@ export function priceAdding(dispatch, hallId, vip, regular) {
     })
 }
 
+// GET ONE MOVIE
+
+export function movieSuccess(movie) {
+  return {
+    type: MOVIE_SUCCESS,
+    payload: { movie }
+  }
+}
+
+export function movieFetch(dispatch, movieId) {
+  fetch(`http://localhost:8000/api/movies/${movieId}`, {
+    method: 'GET',
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+  }).then((res) => res.json())
+    .then((data) => {
+      dispatch(movieSuccess(data))
+    })
+}
+
 // MOVIES LIST
 
 export function moviesListFailure(error) {
@@ -324,6 +349,14 @@ export function sessionAdding(dispatch, movieId, hallId, hours, minutes) {
   }).then((res) => res.json())
 }
 
+// SESSION DELETING
+
+export function sessionDeleting(id) {
+  fetch(`http://localhost:8000/api/sessions/${id}`, {
+    method: 'DELETE'
+  })
+}
+
 // POPUP TOGGLE
 
 export function popupAddingToggleHall(addingStatusHall) {
@@ -354,6 +387,13 @@ export function popupDeletingToggle(deletingStatus, delId, delName) {
   }
 }
 
+export function popupDeletingToggleSession(deletingStatusSession) {
+  return {
+    type: POPUP_DELETING_TOGGLE_SESSION,
+    payload: { deletingStatusSession },
+  }
+}
+
 // CATCHING INFO
 
 export function catchingInfoScheme(hallIdForSchema, name, numOfRows, numOfSeats) {
@@ -373,14 +413,28 @@ export function catchingInfoPrice(hallIdForPrice, vip, regular) {
 export function catchingInfoSessionMovieId(sessionMovieId) {
   return {
     type: CATCHING_INFO_SESSION_MOVIE_ID,
-    payload: { sessionMovieId}
+    payload: { sessionMovieId }
   }
 }
 
 export function catchingInfoSessionHallId(sessionHallId) {
   return {
     type: CATCHING_INFO_SESSION_HALL_ID,
-    payload: { sessionHallId}
+    payload: { sessionHallId }
+  }
+}
+
+export function catchingInfoSessionId(sessionId) {
+  return {
+    type: CATCHING_INFO_SESSION_ID,
+    payload: { sessionId }
+  }
+}
+
+export function catchingInfoDeletingSessionMovieId(sessionDelMovieId) {
+  return {
+    type: CATCHING_INFO_DELITING_SESSION_MOVIE_ID,
+    payload: { sessionDelMovieId }
   }
 }
 

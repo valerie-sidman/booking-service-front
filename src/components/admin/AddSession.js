@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Popup from './Popup';
 import PopupControls from './PopupControls';
 import {
   sessionAdding,
+  sessionsListFetch,
   popupAddingToggleSession,
   changeField
 } from '../../actions/actionCreators';
@@ -37,6 +38,7 @@ export default function AddSession(props) {
   const handleSubmit = evt => {
     evt.preventDefault();
     sessionAdding(dispatch, movieId ? movieId : sessionMovieId, hallId ? hallId : sessionHallId, hours, minutes);
+    sessionsListFetch(dispatch);
     dispatch(changeField("movieId", ''));
     dispatch(changeField("hallId", ''));
     dispatch(changeField("hours", ''));
@@ -57,6 +59,7 @@ export default function AddSession(props) {
           <label className="conf-step__label conf-step__label-fullsize" htmlFor="hall">
             Выберите зал
             <select className="conf-step__input" name="hall" onChange={handleSelectHall} required>{
+              // eslint-disable-next-line eqeqeq
               halls.map((hall) => <option key={hall.id} value={hall.id}  selected={hall.id == sessionHallId}>{hall.name}</option>)
             }</select>
           </label>
@@ -69,6 +72,7 @@ export default function AddSession(props) {
           <label className="conf-step__label conf-step__label-fullsize" htmlFor="movie">
             Выберите фильм
             <select className="conf-step__input" name="movie" onChange={handleSelectMovie} required>{
+              // eslint-disable-next-line eqeqeq
               movies.map((movie) => <option key={movie.id} value={movie.id} selected={movie.id == sessionMovieId}>{movie.name}</option>)
             }</select>
           </label>

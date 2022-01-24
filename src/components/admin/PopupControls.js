@@ -5,7 +5,8 @@ import {
   popupAddingToggleHall, 
   popupAddingToggleMovie,
   popupAddingToggleSession,
-  popupDeletingToggle 
+  popupDeletingToggle,
+  popupDeletingToggleSession
 } from '../../actions/actionCreators';
 
 export default function PopupControls(props) {
@@ -20,6 +21,7 @@ export default function PopupControls(props) {
     dispatch(popupAddingToggleMovie(false));
     dispatch(popupAddingToggleSession(false));
     dispatch(popupDeletingToggle(false));
+    dispatch(popupDeletingToggleSession(false));
   }
 
   return (

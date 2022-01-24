@@ -2,7 +2,9 @@ import {
   POPUP_ADDING_TOGGLE_HALL,
   POPUP_ADDING_TOGGLE_MOVIE,
   POPUP_ADDING_TOGGLE_SESSION,
-  POPUP_DELETING_TOGGLE } from '../actions/actionTypes';
+  POPUP_DELETING_TOGGLE,
+  POPUP_DELETING_TOGGLE_SESSION
+ } from '../actions/actionTypes';
 
 const initialState = {
   delId: '',
@@ -10,7 +12,8 @@ const initialState = {
   addingStatusHall: false,
   addingStatusMovie: false,
   addingStatusSession: false,
-  deletingStatus: false
+  deletingStatus: false,
+  deletingStatusSession: false,
 }
 
 export default function popupToggleReducer(state = initialState, action) {
@@ -39,7 +42,13 @@ export default function popupToggleReducer(state = initialState, action) {
         ...state,
         deletingStatus,
         delId,
-        delName
+        delName,
+      }
+      case POPUP_DELETING_TOGGLE_SESSION:
+      const { deletingStatusSession } = action.payload;
+      return {
+        ...state,
+        deletingStatusSession,
       }
     default:
       return state;
