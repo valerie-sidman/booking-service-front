@@ -6,6 +6,7 @@ import {
   HALL_ADDING_FAILURE,
   CATCHING_INFO_SCHEME,
   CATCHING_INFO_PRICE,
+  CATCHING_INFO_SALE,
   CATCHING_INFO_SESSION_MOVIE_ID,
   CATCHING_INFO_SESSION_HALL_ID,
   CATCHING_INFO_SESSION_ID,
@@ -357,6 +358,21 @@ export function sessionDeleting(id) {
   })
 }
 
+// SALE STATUS 
+
+export function changeSaleStatus(hallIdForSale, saleStatus ) {
+  fetch(`http://localhost:8000/api/halls/${hallIdForSale}`, {
+    method: 'PUT',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    }),
+    body: JSON.stringify({
+      open: saleStatus,
+    }),
+  }).then((res) => res.json())
+}
+
 // POPUP TOGGLE
 
 export function popupAddingToggleHall(addingStatusHall) {
@@ -407,6 +423,13 @@ export function catchingInfoPrice(hallIdForPrice, vip, regular) {
   return {
     type: CATCHING_INFO_PRICE,
     payload: { hallIdForPrice, vip, regular }
+  }
+}
+
+export function catchingInfoSale(hallIdForSale, open) {
+  return {
+    type: CATCHING_INFO_SALE,
+    payload: { hallIdForSale, open }
   }
 }
 
