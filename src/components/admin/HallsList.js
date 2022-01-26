@@ -48,7 +48,7 @@ export default function HallsList(props) {
     } else if (props.type === 'sale') {
       dispatch(catchingInfoSale(
         evt.target.parentElement.id,
-        evt.target.parentElement.getAttribute('open'),
+        evt.target.parentElement.getAttribute('isopen'),
       ));
     }
   }
@@ -56,8 +56,14 @@ export default function HallsList(props) {
   return (
     <React.Fragment>
       <ul className="conf-step__selectors-box">{
-        halls.map((hall)  =>
-          <li id={hall.id} key={hall.id} name={hall.name} numofrows={hall.num_of_rows} numofseats={hall.num_of_seats} vip={hall.price_vip} regular={hall.price_regular} open={hall.open}>
+        halls.map((hall) =>
+          <li id={hall.id} key={hall.id}
+            name={hall.name}
+            numofrows={hall.num_of_rows}
+            numofseats={hall.num_of_seats}
+            vip={hall.price_vip}
+            regular={hall.price_regular}
+            isopen={hall.open}>
             <input type="radio" className="conf-step__radio"
               name={props.type === 'scheme' ? "chairs-hall" : props.type === 'price' ? "prices-hall" : "sale-hall"}
               value={hall.name} onChange={handleCatchingInfo}

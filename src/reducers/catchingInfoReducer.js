@@ -27,7 +27,7 @@ const initialState = {
 
   sale: { 
     hallIdForSale: '', 
-    open: false,
+    open: '-1',
   },
 
   sessionMovieId: {

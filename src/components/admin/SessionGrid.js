@@ -49,7 +49,6 @@ export default function SessionGrid() {
 
   function dragstart_handler_add(ev) {
     const draggingMovieId = ev.target.id;
-    console.log(draggingMovieId);
     dispatch(catchingInfoSessionMovieId(draggingMovieId));
   }
 

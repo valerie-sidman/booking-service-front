@@ -360,7 +360,7 @@ export function sessionDeleting(id) {
 
 // SALE STATUS 
 
-export function changeSaleStatus(hallIdForSale, saleStatus ) {
+export function changeSaleStatus(dispatch, hallIdForSale, saleStatus) {
   fetch(`http://localhost:8000/api/halls/${hallIdForSale}`, {
     method: 'PUT',
     headers: new Headers({
@@ -371,6 +371,10 @@ export function changeSaleStatus(hallIdForSale, saleStatus ) {
       open: saleStatus,
     }),
   }).then((res) => res.json())
+    .then((data) => dispatch(catchingInfoSale(
+      data.id,
+      data.open,
+    )))
 }
 
 // POPUP TOGGLE
