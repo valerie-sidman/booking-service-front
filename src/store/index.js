@@ -6,6 +6,7 @@ import popupToggleReducer from "../reducers/popupToggleReducer.js";
 import catchingInfoReducer from "../reducers/catchingInfoReducer.js";
 import seatsListReducer from "../reducers/seatsListReducer.js";
 import moviesListReducer from "../reducers/moviesListReducer.js";
+import moviesOnAirReducer from "../reducers/moviesOnAirReducer.js";
 import movieAddingReducer from "../reducers/movieAddingReducer.js";
 import sessionsListReducer from "../reducers/sessionsListReducer.js";
 import sessionAddingReducer from "../reducers/sessionAddingReducer.js";
@@ -38,6 +39,7 @@ const reducer = combineReducers({
   serviceCatchingInfo: catchingInfoReducer,
   serviceSeatsList: seatsListReducer,
   serviceMoviesList: moviesListReducer,
+  serviceMoviesOnAirReducer: moviesOnAirReducer,
   serviceMovieAdding: movieAddingReducer,
   serviceSessionsList: sessionsListReducer,
   serviceSessionAdding: sessionAddingReducer,

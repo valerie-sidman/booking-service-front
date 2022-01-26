@@ -20,6 +20,7 @@ import {
   MOVIE_SUCCESS,
   MOVIES_LIST_FAILURE,
   MOVIES_LIST_SUCCESS,
+  MOVIES_WITH_HALLS_SUCCESS,
   SESSIONS_LIST_FAILURE,
   SESSIONS_LIST_SUCCESS,
   POPUP_ADDING_TOGGLE_HALL,
@@ -290,6 +291,25 @@ export function moviesListFetch(dispatch) {
     })
     .catch((e) => {
       dispatch(moviesListFailure(e.message))
+    })
+}
+
+export function moviesWithHallsSuccess(movies) {
+  return {
+    type: MOVIES_WITH_HALLS_SUCCESS,
+    payload: { movies }
+  }
+}
+
+export function moviesWithHalls(dispatch) {
+  fetch("http://localhost:8000/api/movies/halls", {
+    method: 'GET',
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+  }).then((res) => res.json())
+    .then((data) => {
+      dispatch(moviesWithHallsSuccess(data))
     })
 }
 
