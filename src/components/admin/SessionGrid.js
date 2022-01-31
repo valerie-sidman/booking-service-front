@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import ConfigSection from './ConfigSection';
 import ConfigHeader from './ConfigHeader';
 import ConfigWrapper from './ConfigWrapper';
-import poster from '../../i/poster.png';
 import {
   moviesListFailure,
   moviesListFetch,
@@ -76,7 +75,7 @@ export default function SessionGrid() {
           <div className="conf-step__movies">
             {movies.map((movie) =>
               <div id={movie.id} key={movie.id}  className="conf-step__movie" onDragStart={dragstart_handler_add} draggable="true">
-                <img className="conf-step__movie-poster" alt="poster" src={poster} />
+                <img className="conf-step__movie-poster" alt={movie.name} src={movie.img_url} />
                 <h3 className="conf-step__movie-title">{movie.name}</h3>
                 <p className="conf-step__movie-duration">{movie.duration} минут</p>
               </div>

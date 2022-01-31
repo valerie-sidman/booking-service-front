@@ -315,14 +315,14 @@ export function moviesWithHalls(dispatch) {
 
 // MOVIE ADDING
 
-export function movieAdding(dispatch, name, description, duration, production_country) {
+export function movieAdding(dispatch, name, description, duration, production_country, img_url) {
   fetch("http://localhost:8000/api/movies", {
     method: 'POST',
     headers: new Headers({
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
     }),
-    body: JSON.stringify({ name, description, duration, production_country }),
+    body: JSON.stringify({ name, description, duration, production_country, img_url  }),
   }).then((res) => res.json())
 }
 

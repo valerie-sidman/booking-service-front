@@ -14,7 +14,7 @@ export default function AddMovie(props) {
 
   const dispatch = useDispatch();
   let navigate = useNavigate();
-  const { name, description, duration, production_country } = useSelector(state => state.serviceMovieAdding);
+  const { name, description, duration, production_country, img_url } = useSelector(state => state.serviceMovieAdding);
 
   const handleChange = evt => {
     const { name, value } = evt.target;
@@ -23,12 +23,13 @@ export default function AddMovie(props) {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    movieAdding(dispatch, name, description, duration, production_country);
+    movieAdding(dispatch, name, description, duration, production_country, img_url);
     moviesListFetch(dispatch);
     dispatch(changeField("name", ''));
     dispatch(changeField("description", ''));
     dispatch(changeField("duration", ''));
     dispatch(changeField("production_country", ''));
+    dispatch(changeField("img_url", ''));
   }
 
   const handleRedirect = () => {
@@ -55,6 +56,10 @@ export default function AddMovie(props) {
           <label className="conf-step__label conf-step__label-fullsize" htmlFor="production_country">
             Страна производства фильма
             <input className="conf-step__input" type="text" placeholder="Например, &laquo;СССР&raquo;" name="production_country" value={production_country} onChange={handleChange} required />
+          </label>
+          <label className="conf-step__label conf-step__label-fullsize" htmlFor="production_country">
+            URL постера фильма
+            <input className="conf-step__input" type="text" placeholder="Например, &laquo;https://poster/300x450&raquo;" name="img_url" value={img_url} onChange={handleChange} required />
           </label>
           <PopupControls title="Добавить фильм" action={handleRedirect} />
         </form>
