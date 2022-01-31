@@ -11,6 +11,8 @@ import {
   CATCHING_INFO_SESSION_HALL_ID,
   CATCHING_INFO_SESSION_ID,
   CATCHING_INFO_DELITING_SESSION_MOVIE_ID,
+  CALENDAR_MANAGEMENT,
+  SELECT_DAY,
   ROWS_SEATS_ADDING_FAILURE,
   SEATS_LIST_FAILURE,
   SEATS_LIST_SUCCESS,
@@ -482,6 +484,22 @@ export function catchingInfoDeletingSessionMovieId(sessionDelMovieId) {
   return {
     type: CATCHING_INFO_DELITING_SESSION_MOVIE_ID,
     payload: { sessionDelMovieId }
+  }
+}
+
+// CALENDAR MANAGEMENT
+
+export function calendarManagement(week) {
+  return {
+    type: CALENDAR_MANAGEMENT,
+    payload: { week }
+  }
+}
+
+export function selectDay(day) {
+  return {
+    type: SELECT_DAY,
+    payload: { day }
   }
 }
 
