@@ -13,6 +13,7 @@ import {
   CATCHING_INFO_DELITING_SESSION_MOVIE_ID,
   CALENDAR_MANAGEMENT,
   SELECT_DAY,
+  BOOKING_INFO_MANAGEMENT,
   ROWS_SEATS_ADDING_FAILURE,
   SEATS_LIST_FAILURE,
   SEATS_LIST_SUCCESS,
@@ -500,6 +501,15 @@ export function selectDay(day) {
   return {
     type: SELECT_DAY,
     payload: { day }
+  }
+}
+
+// BOOKING INFO
+
+export function bookingInfoManagement( sessionId, movieName, hallId, hallName, hours, minutes, date) {
+  return {
+    type: BOOKING_INFO_MANAGEMENT,
+    payload: { sessionId, movieName, hallId, hallName, hours, minutes, date }
   }
 }
 

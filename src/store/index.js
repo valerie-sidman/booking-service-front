@@ -5,6 +5,7 @@ import hallAddingReducer from "../reducers/hallAddingReducer.js";
 import popupToggleReducer from "../reducers/popupToggleReducer.js";
 import catchingInfoReducer from "../reducers/catchingInfoReducer.js";
 import calendarReducer from "../reducers/calendarReducer.js";
+import bookingInfoReducer from "../reducers/bookingInfoReducer.js";
 import seatsListReducer from "../reducers/seatsListReducer.js";
 import moviesListReducer from "../reducers/moviesListReducer.js";
 import moviesOnAirReducer from "../reducers/moviesOnAirReducer.js";
@@ -39,6 +40,7 @@ const reducer = combineReducers({
   servicePopupToggle: popupToggleReducer,
   serviceCatchingInfo: catchingInfoReducer,
   serviceCalendarReducer: calendarReducer,
+  serviceBookingInfoReducer: bookingInfoReducer,
   serviceSeatsList: seatsListReducer,
   serviceMoviesList: moviesListReducer,
   serviceMoviesOnAirReducer: moviesOnAirReducer,
