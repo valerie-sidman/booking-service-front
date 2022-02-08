@@ -14,6 +14,7 @@ import {
   CALENDAR_MANAGEMENT,
   SELECT_DAY,
   BOOKING_INFO_MANAGEMENT,
+  BOOKING_SEATS,
   ROWS_SEATS_ADDING_FAILURE,
   SEATS_LIST_FAILURE,
   SEATS_LIST_SUCCESS,
@@ -504,12 +505,19 @@ export function selectDay(day) {
   }
 }
 
-// BOOKING INFO
+// BOOKING
 
-export function bookingInfoManagement( sessionId, movieName, hallId, hallName, hours, minutes, date) {
+export function bookingInfoManagement( sessionId, movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes, date) {
   return {
     type: BOOKING_INFO_MANAGEMENT,
-    payload: { sessionId, movieName, hallId, hallName, hours, minutes, date }
+    payload: { sessionId, movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes, date }
+  }
+}
+
+export function bookingSeats(seats) {
+  return {
+    type: BOOKING_SEATS,
+    payload: { seats }
   }
 }
 

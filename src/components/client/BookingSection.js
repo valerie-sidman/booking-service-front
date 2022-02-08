@@ -3,11 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import HeaderClient from './HeaderClient';
 import {
   seatsListFetch,
+  bookingSeats
 } from '../../actions/actionCreators';
 
 export default function BookingSection() {
 
-  const { movieName, hallId, hallName, hours, minutes } = useSelector(state => state.serviceBookingInfoReducer);
+  const { movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes } = useSelector(state => state.serviceBookingInfoReducer);
   const { seats } = useSelector(state => state.serviceSeatsList);
   const dispatch = useDispatch();
 
@@ -17,31 +18,56 @@ export default function BookingSection() {
   }, []);
 
   function createSchemaStruct() {
-    console.log(seats);
     let rows = [];
-    rows = seats.map(())
-    seats.reduce(
-      (schema, { id, number, type }) => {
-        if (schema) {
-          console.log(schema)
-          if (!schema['rows']) {
-            schema['rows'] = [];
-          }
-          schema['rows'].push({ id, number, type });
-        }
-
+    seats.forEach((rawSeat) => {
+      if (rows.some((row) => row.number === rawSeat.row)) {
+        let rowIndex = rows.findIndex((row) => row.number === rawSeat.row);
+        rows[rowIndex].seats.push({ id: rawSeat.id, number: rawSeat.number, type: rawSeat.type, ticketId: rawSeat.ticket_id });
+      } else {
+        rows.push({ number: rawSeat.row, seats: [{ id: rawSeat.id, number: rawSeat.number, type: rawSeat.type, ticketId: rawSeat.ticket_id }] });
       }
-    )
-    console.log('result: ', seats)
+    })
+    return rows;
+  }
+
+  function getSeatClassByType(type, ticketId) {
+    if (ticketId) {
+      return 'buying-scheme__chair buying-scheme__chair_taken';
+    }
+    switch (type) {
+      case 'vip':
+        return 'buying-scheme__chair buying-scheme__chair_vip';
+      case 'disabled':
+        return 'buying-scheme__chair buying-scheme__chair_disabled';
+      default:
+        return 'buying-scheme__chair buying-scheme__chair_standart';
+    }
+  }
+
+  function selectSeat(ev) {
+    if (ev.target.className !== 'buying-scheme__chair buying-scheme__chair_selected') {
+      ev.target.className = 'buying-scheme__chair buying-scheme__chair_selected';
+    } else {
+      ev.target.className = getSeatClassByType(ev.target.getAttribute('type'), ev.target.getAttribute('ticketid'));
+    }
+  }
+
+  function sendingBookedSeats() {
+    const elements = Array.from(document.getElementsByClassName('buying-scheme__chair buying-scheme__chair_selected'))
+      .filter((seat) => seat.id)
+      .map(element => {
+        return {
+          id: element.getAttribute('id'),
+          number: element.getAttribute('number'),
+          type: element.getAttribute('type')
+        }
+      });
+    dispatch(bookingSeats(elements));
   }
 
   return (
     <React.Fragment>
       <HeaderClient />
-      {
-        createSchemaStruct()
-      }
-
       <main>
         <section className="buying">
           <div className="buying__info">
@@ -52,23 +78,26 @@ export default function BookingSection() {
             </div>
           </div>
 
-
           <div className="buying-scheme">
             <div className="buying-scheme__wrapper">
-              <div className="buying-scheme__row">
-                <span className="buying-scheme__chair buying-scheme__chair_disabled"></span><span
-                  className="buying-scheme__chair buying-scheme__chair_disabled"></span>
-                <span className="buying-scheme__chair buying-scheme__chair_disabled"></span><span
-                  className="buying-scheme__chair buying-scheme__chair_disabled"></span>
-                <span className="buying-scheme__chair buying-scheme__chair_disabled"></span><span
-                  className="buying-scheme__chair buying-scheme__chair_standart"></span>
-                <span className="buying-scheme__chair buying-scheme__chair_standart"></span><span
-                  className="buying-scheme__chair buying-scheme__chair_disabled"></span>
-                <span className="buying-scheme__chair buying-scheme__chair_disabled"></span><span
-                  className="buying-scheme__chair buying-scheme__chair_disabled"></span>
-                <span className="buying-scheme__chair buying-scheme__chair_disabled"></span><span
-                  className="buying-scheme__chair buying-scheme__chair_disabled"></span>
-              </div>
+
+              {
+                createSchemaStruct().map((row) =>
+                  <div key={row.number} className="buying-scheme__row">
+                    {
+                      row.seats.map((seat) =>
+                        <span key={seat.number} id={seat.id}
+                          number={seat.number}
+                          type={seat.type}
+                          ticketid={seat.ticketId}
+                          className={getSeatClassByType(seat.type, seat.ticketId)}
+                          onClick={selectSeat}>
+                        </span>
+                      )
+                    }
+                  </div>
+                )
+              }
 
             </div>
 
@@ -76,27 +105,27 @@ export default function BookingSection() {
               <div className="col">
                 <p className="buying-scheme__legend-price">
                   <span className="buying-scheme__chair buying-scheme__chair_standart"></span>
-                  Свободно (<span className="buying-scheme__legend-value">250</span>руб)
+                  &nbsp;&nbsp;Свободно (<span className="buying-scheme__legend-value">{hallRegularPrice}</span> руб)
                 </p>
                 <p className="buying-scheme__legend-price">
                   <span className="buying-scheme__chair buying-scheme__chair_vip"></span>
-                  Свободно VIP (<span className="buying-scheme__legend-value">350</span>руб)
+                  &nbsp;&nbsp;Свободно VIP (<span className="buying-scheme__legend-value">{hallVipPrice}</span> руб)
                 </p>
               </div>
               <div className="col">
                 <p className="buying-scheme__legend-price">
                   <span className="buying-scheme__chair buying-scheme__chair_taken"></span>
-                  Занято
+                  &nbsp;&nbsp;Занято
                 </p>
                 <p className="buying-scheme__legend-price">
                   <span className="buying-scheme__chair buying-scheme__chair_selected"></span>
-                  Выбрано
+                  &nbsp;&nbsp;Выбрано
                 </p>
               </div>
             </div>
           </div>
 
-          <button className="acceptin-button" onclick="location.href='payment.html'">Забронировать</button>
+          <button className="acceptin-button" onClick={sendingBookedSeats}>Забронировать</button>
         </section>
       </main>
     </React.Fragment >

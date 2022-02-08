@@ -18,9 +18,9 @@ export default function MoviesOnAir() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function getBookingInfo(e, sessionId, movieName, hallId, hallName, hours, minutes,) {
+  function getBookingInfo(e, sessionId, movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes,) {
     e.preventDefault();
-    dispatch(bookingInfoManagement(sessionId, movieName, hallId, hallName, hours, minutes,));
+    dispatch(bookingInfoManagement(sessionId, movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes,));
     navigate("/client/booking");
   }
 
@@ -49,7 +49,7 @@ export default function MoviesOnAir() {
 
                 {hall.session.map((session) =>
                   <li key={session.id} className="movie-seances__time-block" onClick={
-                    (e) => getBookingInfo(e, session.id, movie.name, hall.id, hall.name, session.hours, session.minutes)
+                    (e) => getBookingInfo(e, session.id, movie.name, hall.id, hall.name, hall.price_vip, hall.price_regular, session.hours, session.minutes)
                   }>
                     <a className="movie-seances__time" href="hall.html">{session.hours}:{session.minutes}</a>
                   </li>
