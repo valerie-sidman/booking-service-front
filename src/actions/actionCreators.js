@@ -521,6 +521,8 @@ export function bookingSeats(seats) {
   }
 }
 
+// TICKET
+
 // CHANGE FIELD
 
 export function changeField(name, value) {

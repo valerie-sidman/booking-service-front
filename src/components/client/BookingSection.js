@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import HeaderClient from './HeaderClient';
 import {
   seatsListFetch,
@@ -11,6 +12,7 @@ export default function BookingSection() {
   const { movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes } = useSelector(state => state.serviceBookingInfoReducer);
   const { seats } = useSelector(state => state.serviceSeatsList);
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
   useEffect(() => {
     seatsListFetch(dispatch, hallId);
@@ -63,6 +65,7 @@ export default function BookingSection() {
         }
       });
     dispatch(bookingSeats(elements));
+    navigate("/client/payment");
   }
 
   return (
