@@ -2,7 +2,8 @@ import { CALENDAR_MANAGEMENT, SELECT_DAY } from '../actions/actionTypes';
 
 const initialState = {
   week: [],
-  selectedDay: ''
+  selectedDay: '',
+  selectedDate: ''
 }
 
 export default function calendarReducer(state = initialState, action) {
@@ -14,10 +15,11 @@ export default function calendarReducer(state = initialState, action) {
         week,
       }
     case SELECT_DAY:
-      const { day } = action.payload;
+      const { day, date } = action.payload;
       return {
         ...state,
         selectedDay: day,
+        selectedDate: date
       }
     default:
       return state;

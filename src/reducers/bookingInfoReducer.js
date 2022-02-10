@@ -1,4 +1,8 @@
-import { BOOKING_INFO_MANAGEMENT, BOOKING_SEATS } from '../actions/actionTypes';
+import { 
+  BOOKING_INFO_MANAGEMENT, 
+  BOOKING_SEATS,
+  CREATING_TICKET_SUCCESS
+ } from '../actions/actionTypes';
 
 const initialState = {
   sessionId: '',
@@ -9,18 +13,19 @@ const initialState = {
   hallRegularPrice: '',
   hours: '',
   minutes: '',
-  date: '',
   seats: [{
     id: '',
     number: '',
+    row: '',
     type: ''
   }],
+  qr: '',
 }
 
 export default function bookingInfoReducer(state = initialState, action) {
   switch (action.type) {
     case BOOKING_INFO_MANAGEMENT:
-      const { sessionId, movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes, date } = action.payload;
+      const { sessionId, movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes } = action.payload;
       return {
         ...state,
         sessionId,
@@ -31,13 +36,18 @@ export default function bookingInfoReducer(state = initialState, action) {
         hallRegularPrice,
         hours,
         minutes,
-        date
       }
       case BOOKING_SEATS:
       const { seats } = action.payload;
       return {
         ...state,
         seats
+      }
+      case CREATING_TICKET_SUCCESS:
+      const { qr } = action.payload;
+      return {
+        ...state,
+        qr
       }
         default:
       return state;

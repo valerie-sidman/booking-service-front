@@ -15,15 +15,22 @@ export default function CalendarNavigation() {
     return result;
   }
 
+  function dateFormat(date) {
+    return date.getFullYear() + '-' + 
+      ((date.getMonth() + 1) >= 10 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)) + '-' + 
+      (date.getDate() >= 10 ? date.getDate() : '0' + date.getDate());
+  }
+
   useEffect(() => {
+    dispatch(selectDay(today.getDate().toString(), dateFormat(today)));
     dispatch(calendarManagement( [
-      { dayNumber: today.getDate(), dayName: days[today.getDay()] },
-      { dayNumber: addDays(today, 1).getDate(), dayName: days[addDays(today, 1).getDay()] },
-      { dayNumber: addDays(today, 2).getDate(), dayName: days[addDays(today, 2).getDay()] },
-      { dayNumber: addDays(today, 3).getDate(), dayName: days[addDays(today, 3).getDay()] },
-      { dayNumber: addDays(today, 4).getDate(), dayName: days[addDays(today, 4).getDay()] },
-      { dayNumber: addDays(today, 5).getDate(), dayName: days[addDays(today, 5).getDay()] },
-      { dayNumber: addDays(today, 6).getDate(), dayName: days[addDays(today, 6).getDay()] }
+      { dayNumber: today.getDate(), dayName: days[today.getDay()], date: dateFormat(today) },
+      { dayNumber: addDays(today, 1).getDate(), dayName: days[addDays(today, 1).getDay()], date: dateFormat(addDays(today, 1)) },
+      { dayNumber: addDays(today, 2).getDate(), dayName: days[addDays(today, 2).getDay()], date: dateFormat(addDays(today, 2)) },
+      { dayNumber: addDays(today, 3).getDate(), dayName: days[addDays(today, 3).getDay()], date: dateFormat(addDays(today, 3)) },
+      { dayNumber: addDays(today, 4).getDate(), dayName: days[addDays(today, 4).getDay()], date: dateFormat(addDays(today, 4)) },
+      { dayNumber: addDays(today, 5).getDate(), dayName: days[addDays(today, 5).getDay()], date: dateFormat(addDays(today, 5)) },
+      { dayNumber: addDays(today, 6).getDate(), dayName: days[addDays(today, 6).getDay()], date: dateFormat(addDays(today, 6)) }
     ] ));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -48,16 +55,16 @@ export default function CalendarNavigation() {
 
   function toggleSelect(e) {
     e.preventDefault();
-    dispatch(selectDay(e.target.getAttribute('daynumber')))
+    dispatch(selectDay(e.target.getAttribute('daynumber'), e.target.getAttribute('date')));
   }
 
   return (
     <React.Fragment>
       <nav className="page-nav">
       {week.map((day) => 
-        <a key={week.indexOf(day)} className={getNavDayClassName(day)} href="/#" daynumber={day.dayNumber} onClick={toggleSelect}>
-          <span className="page-nav__day-week" daynumber={day.dayNumber}>{day.dayName}</span>
-          <span className="page-nav__day-number" daynumber={day.dayNumber}>{day.dayNumber}</span>
+        <a key={week.indexOf(day)} className={getNavDayClassName(day)} href="/#" daynumber={day.dayNumber} date={day.date} onClick={toggleSelect}>
+          <span className="page-nav__day-week" daynumber={day.dayNumber} date={day.date}>{day.dayName}</span>
+          <span className="page-nav__day-number" daynumber={day.dayNumber} date={day.date}>{day.dayNumber}</span>
         </a>
       )}
       </nav>

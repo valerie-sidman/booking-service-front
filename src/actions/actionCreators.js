@@ -15,6 +15,7 @@ import {
   SELECT_DAY,
   BOOKING_INFO_MANAGEMENT,
   BOOKING_SEATS,
+  CREATING_TICKET_SUCCESS,
   ROWS_SEATS_ADDING_FAILURE,
   SEATS_LIST_FAILURE,
   SEATS_LIST_SUCCESS,
@@ -498,19 +499,19 @@ export function calendarManagement(week) {
   }
 }
 
-export function selectDay(day) {
+export function selectDay(day, date) {
   return {
     type: SELECT_DAY,
-    payload: { day }
+    payload: { day, date }
   }
 }
 
 // BOOKING
 
-export function bookingInfoManagement( sessionId, movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes, date) {
+export function bookingInfoManagement( sessionId, movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes ) {
   return {
     type: BOOKING_INFO_MANAGEMENT,
-    payload: { sessionId, movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes, date }
+    payload: { sessionId, movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes }
   }
 }
 
@@ -519,6 +520,27 @@ export function bookingSeats(seats) {
     type: BOOKING_SEATS,
     payload: { seats }
   }
+}
+
+export function creatingTicketSuccess(qr) {
+  return {
+    type: CREATING_TICKET_SUCCESS,
+    payload: { qr }
+  }
+}
+
+export function creatingTicket(dispatch, sessionId, date, seats) {
+  fetch("http://localhost:8000/api/ticket", {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    }),
+    body: JSON.stringify({ sessionId, date, seats: seats.map(seat => seat.id) }),
+  }).then((res) => res.json())
+    .then((data) => {
+      dispatch(creatingTicketSuccess(data.qrcode))
+  })
 }
 
 // TICKET

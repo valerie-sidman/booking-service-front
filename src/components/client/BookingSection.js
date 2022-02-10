@@ -11,6 +11,7 @@ export default function BookingSection() {
 
   const { movieName, hallId, hallName, hallVipPrice, hallRegularPrice, hours, minutes } = useSelector(state => state.serviceBookingInfoReducer);
   const { seats } = useSelector(state => state.serviceSeatsList);
+  const { selectedDate } = useSelector(state => state.serviceCalendarReducer);
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
@@ -24,9 +25,9 @@ export default function BookingSection() {
     seats.forEach((rawSeat) => {
       if (rows.some((row) => row.number === rawSeat.row)) {
         let rowIndex = rows.findIndex((row) => row.number === rawSeat.row);
-        rows[rowIndex].seats.push({ id: rawSeat.id, number: rawSeat.number, type: rawSeat.type, ticketId: rawSeat.ticket_id });
+        rows[rowIndex].seats.push({ id: rawSeat.id, number: rawSeat.number, row: rawSeat.row, type: rawSeat.type, ticketId: rawSeat.ticket_id });
       } else {
-        rows.push({ number: rawSeat.row, seats: [{ id: rawSeat.id, number: rawSeat.number, type: rawSeat.type, ticketId: rawSeat.ticket_id }] });
+        rows.push({ number: rawSeat.row, seats: [{ id: rawSeat.id, number: rawSeat.number, row: rawSeat.row, type: rawSeat.type, ticketId: rawSeat.ticket_id }] });
       }
     })
     return rows;
@@ -61,6 +62,7 @@ export default function BookingSection() {
         return {
           id: element.getAttribute('id'),
           number: element.getAttribute('number'),
+          row: element.getAttribute('row'),
           type: element.getAttribute('type')
         }
       });
@@ -76,7 +78,8 @@ export default function BookingSection() {
           <div className="buying__info">
             <div className="buying__info-description">
               <h2 className="buying__info-title">{movieName}</h2>
-              <p className="buying__info-start">Начало сеанса: {hours}:{minutes}</p>
+              <p className="buying__info-start">Время начала сеанса: {hours}:{minutes}</p>
+              <p className="buying__info-start">Дата сеанса: {selectedDate}</p>
               <p className="buying__info-hall">{hallName}</p>
             </div>
           </div>
@@ -91,6 +94,7 @@ export default function BookingSection() {
                       row.seats.map((seat) =>
                         <span key={seat.number} id={seat.id}
                           number={seat.number}
+                          row={seat.row}
                           type={seat.type}
                           ticketid={seat.ticketId}
                           className={getSeatClassByType(seat.type, seat.ticketId)}
