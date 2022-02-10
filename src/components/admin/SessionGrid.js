@@ -20,6 +20,7 @@ import {
 export default function SessionGrid() {
 
   const dispatch = useDispatch();
+  const { halls } = useSelector(state => state.serviceHallsList);
   const { movies, moviesError } = useSelector(state => state.serviceMoviesList);
   const { sessions, sessionsError } = useSelector(state => state.serviceSessionsList);
 
@@ -35,7 +36,7 @@ export default function SessionGrid() {
       sessionsListFetch(dispatch);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [halls]);
 
   const handlePopupAddingMovie = () => {
     dispatch(popupAddingToggleMovie(true));

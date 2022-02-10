@@ -12,7 +12,6 @@ export default function SaleConfig() {
   const dispatch = useDispatch();
 
   function manageSaleStatus() {
-    console.log(sale.hallIdForSale, sale.open === '0')
     changeSaleStatus(dispatch, sale.hallIdForSale, sale.open === '0');
     hallsListFetch(dispatch);
   }

@@ -119,7 +119,7 @@ export function hallAdding(dispatch, name) {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
     }),
-    body: JSON.stringify({ name, num_of_rows: 0, num_of_seats: 0, price_vip: 0, price_regular: 0 }),
+    body: JSON.stringify({ name, num_of_rows: 0, num_of_seats: 0, price_vip: 0, price_regular: 0, open: false }),
   }).then((res) => res.json())
     .catch((e) => {
       dispatch(hallAddingFailure(e.message))
