@@ -16,7 +16,7 @@ npm install
 npm start
 ```
 ## Данные для доступа к панели администратора
-[Панель администратора](http://localhost:8000/admin)
+[Панель администратора](http://localhost:3000/admin)
 
 **login** - admin
 
